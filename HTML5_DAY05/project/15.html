@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <img src="img/trash.png" @drop="drop($event)" @dragover="dragover($event)" id="trash" alt="">
+        <div id="container">
+            <img v-for="(item,i) in img" @dragstart="dragstart($event,item)" :id=`${item}` :src=`img/${item}.png`>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                img: ["p3", "p4", "p5"],
+                item: ""
+            },
+            methods: {
+                dragstart(e, data) {
+                    this.item = data;
+                    e.stopPropagation()
+                    // e.dataTransfer.setData('ImgId', this.id);
+                },
+                dragover(e) {
+                    e.stopPropagation()
+                    e.preventDefault();
+                },
+                drop(e) {
+                    e.stopPropagation()
+                    // var id = e.dataTransfer.getData("ImgId");
+                    this.img.splice(this.img.indexOf(this.item), 1)
+                    this.$forceUpdate();
+                },
+            },
+
+
+        })
+    </script>
+    <style>
+        #container {
+            display: flex;
+            justify-content: center;
+            margin-top: 100px;
+            /* background: #A463BF; */
+        }
+
+
+        #trash {
+            display: block;
+            margin: 0px auto;
+
+        }
+    </style>
+</body>
+
+</html>
